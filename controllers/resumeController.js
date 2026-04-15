@@ -42,5 +42,41 @@ const getResumes = async (req, res) => {
     });
   }
 };
+// Update Resume 
 
-module.exports = {createResume,getResumes,};
+const updateResume = async (req, res) => {
+  try {
+    const resumeId = req.params.id; // ✅ use resume id from URL
+
+    const resumeData = req.body;
+
+    const updatedResume = await Resume.findByIdAndUpdate(
+      resumeId,
+      resumeData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({
+        message: "Resume not found",
+        error: true
+      });
+    }
+
+    res.status(200).json({
+      message: "Resume updated successfully",
+      data: updatedResume,
+      error: false
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: error.message,
+      error: true
+    });
+  }
+};
+
+module.exports = {createResume,getResumes,updateResume};
