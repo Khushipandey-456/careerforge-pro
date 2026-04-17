@@ -22,7 +22,6 @@ AI Resume Architect & ATS Optimizer
 ##### Setup
 npm install
 npm run devs
-Run the Application
 
 # production
 npm start 
