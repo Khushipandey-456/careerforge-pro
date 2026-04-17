@@ -78,5 +78,34 @@ const updateResume = async (req, res) => {
     });
   }
 };
+// Delete Resume
+const deleteResume = async (req, res) => {
+  try {
+    const resumeId = req.params.id; // get id from URL
 
-module.exports = {createResume,getResumes,updateResume};
+    const deletedResume = await Resume.findByIdAndDelete(resumeId);
+
+    if (!deletedResume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Resume deleted successfully",
+      data: deletedResume
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+module.exports = {createResume,getResumes,updateResume,deleteResume};
